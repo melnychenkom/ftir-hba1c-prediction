@@ -1,21 +1,33 @@
 # Machine Learning Methods for HbA1c Prediction
 
-This repository contains code accompanying the preprint *Complementary machine learning approaches for HbA1c prediction from FTIR blood spectra"*.
+This repository contains code accompanying the preprint *"Complementary machine learning approaches for HbA1c prediction from FTIR blood spectra"*.
 
 <p align="center">
   <img src="spectrum.png" alt="FTIR Spectrum" width="800"/>
 </p>
 
 ## Installation
+
 ```bash
 git clone https://github.com/yourusername/ftir-hba1c-prediction.git
 cd ftir-hba1c-prediction
-
-poetry install
-
-pip install -e .
 ```
 
+### Option A: Poetry (Recommended)
+
+Installs CPU-only versions automatically.
+
+```bash
+poetry install
+```
+
+### Option B: Manual / GPU
+
+Use `pyproject.toml` for dependency reference.
+
+```bash
+pip install -e .
+```
 **Note**: This installation includes CPU-only versions of PyTorch and JAX. For GPU support, you'll need to install the appropriate CUDA-enabled versions separately.
 
 **JAXFit**: This repository uses a personal fork of JAXFit with fixes for compatibility with newer JAX versions.
