@@ -1,0 +1,38 @@
+# lightning.pytorch==2.5.0.post0
+seed_everything: true
+trainer:
+  accelerator: auto
+  strategy: auto
+  devices: auto
+  num_nodes: 1
+  precision: null
+  logger:
+    - class_path: lightning.pytorch.loggers.MLFlowLogger
+      init_args:
+        experiment_name: "1D_CNN_Regression"
+        save_dir: /home/mykola/projects/ftir-hba1c-prediction/data/cnn/mlruns
+        run_name: cnn_run_1
+  callbacks:
+    - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+      init_args:
+        monitor: val_loss
+        dirpath: /home/mykola/projects/ftir-hba1c-prediction/data/cnn/checkpoints
+        filename: best-checkpoint-{epoch:02d}-{val_loss:.2f}
+        save_top_k: 1
+        mode: min
+        save_last: true
+    - class_path: lightning.pytorch.callbacks.EarlyStopping
+      init_args:
+        monitor: val_loss
+        patience: 15
+        mode: min
+  max_epochs: 300
+model:
+  input_size: 3319
+  learning_rate: 0.0001
+data:
+  data_folder: /home/mykola/projects/ftir-hba1c-prediction/data/cnn/
+  batch_size: 32
+optimizer: null
+lr_scheduler: null
+ckpt_path: null

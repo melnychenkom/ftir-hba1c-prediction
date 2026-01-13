@@ -1,0 +1,8 @@
+.vscode/
+data/
+__pycache__/
+docs/
+mlflow.db
+lightning_logs/
+checkpoints/
+mlruns/
