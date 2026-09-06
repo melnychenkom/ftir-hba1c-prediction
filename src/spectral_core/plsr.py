@@ -36,7 +36,7 @@ class PLSRComponents:
         X: np.ndarray,
         y: np.ndarray,
         ncomp: int,
-        cv: int = 5,
+        cv: int = 10,
         threshold: float = 0.0,
     ) -> int:
         """

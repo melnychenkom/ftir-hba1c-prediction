@@ -1,5 +1,5 @@
 # lightning.pytorch==2.5.0.post0
-seed_everything: true
+seed_everything: 34
 
 trainer:
   enable_checkpointing: false
@@ -7,7 +7,7 @@ model:
   input_size: 3319
   learning_rate: 0.0001
 data:
-  data_folder: /home/mykola/projects/ftir-hba1c-prediction/data/cnn/
+  data_folder: /home/mykola/projects/ftir-hba1c-prediction/data/processed/
   batch_size: 32
 optimizer: null
 lr_scheduler: null

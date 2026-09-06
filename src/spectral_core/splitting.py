@@ -80,7 +80,9 @@ class DataSplitter:
         
         return DataSplit(
             train=data[train_idx],
-            test=data[test_idx]
+            test=data[test_idx],
+            train_idx=train_idx,
+            test_idx=test_idx
         )
     
     def train_val_test_split(
@@ -135,7 +137,10 @@ class DataSplitter:
         return DataSplit(
             train=data[train_idx],
             val=data[val_idx],
-            test=data[test_idx]
+            test=data[test_idx],
+            train_idx=train_idx,
+            val_idx=val_idx,
+            test_idx=test_idx
         )
     
     @staticmethod
@@ -147,7 +152,11 @@ class DataSplitter:
     ) -> None:
         """
         Save data split to .npy files.
-        
+
+        Writes spectra, the selected feature and the wavenumber axis for every
+        subset, plus the positions each subset occupied in the data that was
+        split, so the same split can be recovered without re-running it.
+
         Args:
             split: DataSplit to save
             output_dir: Directory to save files
@@ -173,7 +182,15 @@ class DataSplitter:
             np.save(output_path / f"{prefix}y_val.npy", split.val.features[feature])
         
         np.save(output_path / f"{prefix}wavenumbers.npy", split.train.wavenumbers)
-        
+
+        for name, indices in (
+            ('train', split.train_idx),
+            ('val', split.val_idx),
+            ('test', split.test_idx)
+        ):
+            if indices is not None:
+                np.save(output_path / f"{prefix}{name}_idx.npy", indices)
+
         print(f"Data split saved to {output_dir}")
         print(f"  Train samples: {len(split.train)}")
         if split.val is not None:

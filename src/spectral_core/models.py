@@ -118,7 +118,7 @@ class SpectralData:
     def __len__(self) -> int:
         return self.n_samples
     
-    def __getitem__(self, idx: Union[int, slice, np.ndarray]) -> 'SpectralData':
+    def __getitem__(self, idx: Union[int, slice, np.ndarray, List[int]]) -> 'SpectralData':
         """
         Get subset of data by index, returning new SpectralData instance.
         
@@ -155,7 +155,20 @@ class SpectralData:
 
 @dataclass(frozen=True)
 class DataSplit:
-    """Container for train/test/validation splits."""
+    """
+    Container for train/test/validation splits.
+
+    Attributes:
+        train: Training samples
+        test: Test samples
+        val: Validation samples, if a three-way split was requested
+        train_idx: Positions of the training samples in the data that was split
+        test_idx: Positions of the test samples in the data that was split
+        val_idx: Positions of the validation samples in the data that was split
+    """
     train: SpectralData
     test: SpectralData
     val: Optional[SpectralData] = None
+    train_idx: Optional[np.ndarray] = None
+    test_idx: Optional[np.ndarray] = None
+    val_idx: Optional[np.ndarray] = None
