@@ -1,4 +1,4 @@
-from typing import Optional, List, Union
+from typing import Optional, List, Sequence, Tuple, Union
 import numpy as np
 from scipy.signal import savgol_filter
 from sklearn.preprocessing import StandardScaler
@@ -168,7 +168,10 @@ class Normalization(PreprocessingStep):
 class RegionSelector(PreprocessingStep):
     """Select specific wavenumber regions."""
     
-    def __init__(self, regions: List[SpectralRegion]):
+    def __init__(
+        self,
+        regions: Sequence[Union[SpectralRegion, Tuple[float, float]]]
+    ):
         """
         Initialize region selector.
         
@@ -279,14 +282,14 @@ class PreprocessingPipeline:
         processed_data = pipeline.apply(raw_data)
     """
     
-    def __init__(self, steps: Optional[List[PreprocessingStep]] = None):
+    def __init__(self, steps: Optional[Sequence[PreprocessingStep]] = None):
         """
         Initialize pipeline with optional list of steps.
         
         Args:
             steps: Optional list of PreprocessingStep instances
         """
-        self.steps: List[PreprocessingStep] = steps if steps is not None else []
+        self.steps: List[PreprocessingStep] = list(steps) if steps is not None else []
     
     def add_step(self, step: PreprocessingStep) -> 'PreprocessingPipeline':
         """
