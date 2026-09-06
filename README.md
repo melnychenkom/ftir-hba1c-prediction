@@ -1,6 +1,6 @@
 # Machine Learning Methods for HbA1c Prediction
 
-This repository contains code accompanying the preprint *"Complementary machine learning approaches for HbA1c prediction from FTIR blood spectra"*.
+This repository contains code accompanying the preprint _"Complementary machine learning approaches for HbA1c prediction from FTIR blood spectra"_.
 
 <p align="center">
   <img src="spectrum.png" alt="FTIR Spectrum" width="800"/>
@@ -9,7 +9,7 @@ This repository contains code accompanying the preprint *"Complementary machine 
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/ftir-hba1c-prediction.git
+git clone https://github.com/melnychenkom/ftir-hba1c-prediction.git
 cd ftir-hba1c-prediction
 ```
 
@@ -28,6 +28,7 @@ Use `pyproject.toml` for dependency reference.
 ```bash
 pip install -e .
 ```
+
 **Note**: This installation includes CPU-only versions of PyTorch and JAX. For GPU support, you'll need to install the appropriate CUDA-enabled versions separately.
 
 **JAXFit**: This repository uses a personal fork of JAXFit with fixes for compatibility with newer JAX versions.
@@ -53,9 +54,9 @@ dataset.plot_spectra(feature='HbA1c')
 
 ```python
 from spectral_core import (
-    PreprocessingPipeline, 
-    SavitzkyGolayFilter, 
-    Normalization, 
+    PreprocessingPipeline,
+    SavitzkyGolayFilter,
+    Normalization,
     RegionSelector,
     SampleFilter
 )
@@ -89,13 +90,12 @@ splitter.save_split(split, output_dir='data/cnn/')
 
 ### PLSR
 
-
 ```python
 from spectral_core import PLSRComponents
 
 plsr = PLSRComponents(target_name='HbA1c', scale=False)
 n_components = plsr.fit(
-    split.train.spectra, 
+    split.train.spectra,
     split.train.get_feature('HbA1c'),
     ncomp=20,
     cv=5,

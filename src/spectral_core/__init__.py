@@ -36,7 +36,11 @@ from .splitting import DataSplitter
 from .dataset import SpectralDataset
 
 # PLSR modeling
-from .plsr import PLSRComponents
+from .plsr import PLSRComponents, Q2PLSRegression
+
+# Benchmark models and shared helpers
+from .baselines import build_candidates
+from .utils import compute_metrics
 
 
 __version__ = '2.0.0'
@@ -59,4 +63,7 @@ __all__ = [
     'DataSplitter',
     'SpectralDataset',
     'PLSRComponents',
+    'Q2PLSRegression',
+    'build_candidates',
+    'compute_metrics',
 ]

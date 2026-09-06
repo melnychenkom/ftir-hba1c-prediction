@@ -1,5 +1,5 @@
 # lightning.pytorch==2.5.0.post0
-seed_everything: 34
+seed_everything: 0
 trainer:
   accelerator: auto
   strategy: auto
@@ -10,13 +10,13 @@ trainer:
     - class_path: lightning.pytorch.loggers.MLFlowLogger
       init_args:
         experiment_name: "1D_CNN_Regression"
-        save_dir: /home/mykola/projects/ftir-hba1c-prediction/data/cnn/mlruns
+        save_dir: /home/mykola/projects/ftir-hba1c-prediction/data/mlruns
         run_name: cnn_run_1
   callbacks:
     - class_path: lightning.pytorch.callbacks.ModelCheckpoint
       init_args:
         monitor: val_loss
-        dirpath: /home/mykola/projects/ftir-hba1c-prediction/data/cnn/checkpoints
+        dirpath: /home/mykola/projects/ftir-hba1c-prediction/data/checkpoints
         filename: best-checkpoint-{epoch:02d}-{val_loss:.2f}
         save_top_k: 1
         mode: min

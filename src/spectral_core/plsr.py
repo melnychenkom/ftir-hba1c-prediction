@@ -5,11 +5,52 @@ import numpy as np
 import seaborn as sns
 from matplotlib.ticker import MaxNLocator
 from scipy.stats import pearsonr
+from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import cross_val_predict
 
 DEFAULT_COLOR = "#1f77b4"
+
+
+class Q2PLSRegression(BaseEstimator, RegressorMixin):
+    """
+    PLSR wrapper that selects its own component count, usable in a pipeline.
+
+    Components are added while Q² = 1 - PRESS_k / RSS_(k-1) stays above
+    threshold, which at the default of 0 is Wold's R criterion. Wrapping
+    PLSRComponents this way lets the selection run inside cross-validation,
+    so the component count is re-chosen on every fold rather than once on the
+    whole training set.
+    """
+
+    def __init__(self, max_components: int = 20, cv: int = 10, threshold: float = 0.0):
+        """
+        Args:
+            max_components: Largest component count to consider
+            cv: Number of cross-validation folds used for the Q² estimate
+            threshold: Q² value below which a component is rejected
+        """
+        self.max_components = max_components
+        self.cv = cv
+        self.threshold = threshold
+
+    def fit(self, X: np.ndarray, y: np.ndarray) -> "Q2PLSRegression":
+        """Select the component count, then fit PLSR with it."""
+        selector = PLSRComponents(target_name="HbA1c")
+        self.n_components_ = selector.fit(
+            X,
+            y,
+            ncomp=min(self.max_components, X.shape[1]),
+            cv=self.cv,
+            threshold=self.threshold,
+        )
+        self.model_ = PLSRegression(n_components=self.n_components_).fit(X, y)
+        return self
+
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        """Generate predictions for test data."""
+        return np.asarray(self.model_.predict(X)).ravel()
 
 
 class PLSRComponents:

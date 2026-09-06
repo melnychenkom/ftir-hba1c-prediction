@@ -1,5 +1,5 @@
 # lightning.pytorch==2.5.0.post0
-seed_everything: 34
+seed_everything: 0
 
 trainer:
   enable_checkpointing: false
