@@ -1,13 +1,13 @@
 from typing import Dict, Tuple
 
 import numpy as np
+from sklearn.cross_decomposition import PLSRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from xgboost import XGBRegressor
 
-from .plsr import Q2PLSRegression
 
 DEFAULT_RANDOM_STATE = 34
 DEFAULT_CV_FOLDS = 10
@@ -42,8 +42,8 @@ def build_candidates(
     """
     return {
         "PLSR": (
-            Q2PLSRegression(max_components=min(20, n_features), cv=cv_folds),
-            {},
+            PLSRegression(),
+            {"n_components": list(range(1, min(20, n_features) + 1))},
             cv_folds,
         ),
         "SVR (RBF)": (
