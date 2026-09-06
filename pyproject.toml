@@ -3,10 +3,10 @@ name = "spectral-core"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Your Name",email = "you@example.com"}
+    {name = "Mykola Melnychenko",email = "miko.melnychenko@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11,<3.14"
 dependencies = [
     "pandas (>=2.3.3,<3.0.0)",
     "boxsers (>=1.5.2,<2.0.0)",
@@ -22,7 +22,7 @@ dependencies = [
     "mlflow (>=3.7.0,<4.0.0)",
     "jsonargparse[signatures] (>=4.44.0,<5.0.0)",
     "jax (>=0.8.2,<0.9.0)",
-    "jaxfit @ git+https://github.com/MelnychenkoM/jaxfit.git ; python_version >= \"3.13\" and python_version < \"4\"",
+    "jaxfit @ git+https://github.com/MelnychenkoM/jaxfit.git",
     "nbformat (>=4.2.0)"
 ]
 
