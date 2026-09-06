@@ -1,9 +1,10 @@
-from typing import Optional
+from typing import Optional, Union
 import numpy as np
 from sklearn.preprocessing import KBinsDiscretizer
 from sklearn.model_selection import train_test_split
 
 from spectral_core.models import SpectralData, DataSplit
+from spectral_core.dataset import SpectralDataset
 
 class DataSplitter:
     """
@@ -43,7 +44,7 @@ class DataSplitter:
     
     def train_test_split(
         self,
-        data: SpectralData,
+        data: Union[SpectralData, SpectralDataset],
         feature: str = 'HbA1c'
     ) -> DataSplit:
         """
@@ -77,6 +78,7 @@ class DataSplitter:
             stratify=categories,
             random_state=self.random_state
         )
+        train_idx, test_idx = np.asarray(train_idx), np.asarray(test_idx)
         
         return DataSplit(
             train=data[train_idx],
@@ -87,7 +89,7 @@ class DataSplitter:
     
     def train_val_test_split(
         self,
-        data: SpectralData,
+        data: Union[SpectralData, SpectralDataset],
         feature: str = 'HbA1c'
     ) -> DataSplit:
         """
@@ -124,6 +126,7 @@ class DataSplitter:
             stratify=categories,
             random_state=self.random_state
         )
+        temp_idx, test_idx = np.asarray(temp_idx), np.asarray(test_idx)
         
         val_size_relative = self.val_size / (1 - self.test_size)
         
@@ -133,6 +136,7 @@ class DataSplitter:
             stratify=categories[temp_idx],
             random_state=self.random_state
         )
+        train_idx, val_idx = np.asarray(train_idx), np.asarray(val_idx)
         
         return DataSplit(
             train=data[train_idx],

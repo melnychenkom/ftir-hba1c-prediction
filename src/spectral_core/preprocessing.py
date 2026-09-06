@@ -1,4 +1,4 @@
-from typing import Optional, List, Sequence, Tuple, Union
+from typing import Optional, List, Sequence, Tuple, Union, overload
 import numpy as np
 from scipy.signal import savgol_filter
 from sklearn.preprocessing import StandardScaler
@@ -304,6 +304,12 @@ class PreprocessingPipeline:
         self.steps.append(step)
         return self
     
+    @overload
+    def apply(self, data: SpectralDataset) -> SpectralDataset: ...
+
+    @overload
+    def apply(self, data: SpectralData) -> SpectralData: ...
+
     def apply(self, data):
         """
         Apply all preprocessing steps in sequence.

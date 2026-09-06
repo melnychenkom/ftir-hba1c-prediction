@@ -92,7 +92,7 @@ class SpectralDataset:
     def __len__(self) -> int:
         return len(self._data)
     
-    def __getitem__(self, idx) -> tuple:
+    def __getitem__(self, idx) -> SpectralData:
         return self._data[idx]
 
     def __repr__(self) -> str:
