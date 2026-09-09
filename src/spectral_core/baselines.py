@@ -3,15 +3,15 @@ from typing import Dict, Tuple
 import numpy as np
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Ridge
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from xgboost import XGBRegressor
 
-
 DEFAULT_RANDOM_STATE = 34
 DEFAULT_CV_FOLDS = 10
-DEFAULT_HEAVY_CV_FOLDS = 5
+DEFAULT_HEAVY_CV_FOLDS = 10
 
 Candidate = Tuple[object, dict, int]
 
@@ -25,17 +25,12 @@ def build_candidates(
     """
     Build the benchmark models with their search grids.
 
-    SVR is wrapped in a scaler because an RBF kernel is sensitive to feature
-    scale; the tree models are not. The scaler sits inside the pipeline so it
-    is refitted on each training fold rather than on all the data.
-
-    The tree models use fewer folds than the others purely for runtime.
-
     Args:
         n_features: Width of the design matrix, which caps the PLSR components
         random_state: Seed for the tree models
-        cv_folds: Folds used for PLSR and SVR
-        heavy_cv_folds: Folds used for the tree models
+        cv_folds: Folds used for PLSR, Ridge and SVR
+        heavy_cv_folds: Folds used for the tree models, 10 as reported.
+            Lower it only for an exploratory run
 
     Returns:
         Dictionary mapping display name to (estimator, grid, folds)
@@ -44,6 +39,11 @@ def build_candidates(
         "PLSR": (
             PLSRegression(),
             {"n_components": list(range(1, min(20, n_features) + 1))},
+            cv_folds,
+        ),
+        "Ridge": (
+            Pipeline([("scale", StandardScaler()), ("model", Ridge())]),
+            {"model__alpha": np.logspace(-1, 5, 13).tolist()},
             cv_folds,
         ),
         "SVR (RBF)": (
