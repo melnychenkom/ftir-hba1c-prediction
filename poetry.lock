@@ -1720,6 +1720,24 @@ files = [
 ]
 
 [[package]]
+name = "h2o"
+version = "3.46.0.12"
+description = "H2O, Fast Scalable Machine Learning, for python"
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "h2o-3.46.0.12.tar.gz", hash = "sha256:64279024cadea9c19ed49580c7733aa21bb9aff302805a1ae2f6cdf2e3cea0d3"},
+]
+
+[package.dependencies]
+requests = "*"
+tabulate = "*"
+
+[package.extras]
+kerberos = ["gssapi", "pykerberos (>=1.1.8,<2.0.0) ; sys_platform != \"win32\"", "winkerberos (>=0.5.0) ; sys_platform == \"win32\""]
+
+[[package]]
 name = "h5py"
 version = "3.15.1"
 description = "Read and write HDF5 files from Python"
@@ -5480,6 +5498,21 @@ py-cpuinfo = "*"
 typing-extensions = ">=4.4.0"
 
 [[package]]
+name = "tabulate"
+version = "0.10.0"
+description = "Pretty-print tabular data"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "tabulate-0.10.0-py3-none-any.whl", hash = "sha256:f0b0622e567335c8fabaaa659f1b33bcb6ddfe2e496071b743aa113f8774f2d3"},
+    {file = "tabulate-0.10.0.tar.gz", hash = "sha256:e2cfde8f79420f6deeffdeda9aaec3b6bc5abce947655d17ac662b126e48a60d"},
+]
+
+[package.extras]
+widechars = ["wcwidth"]
+
+[[package]]
 name = "tensorboard"
 version = "2.20.0"
 description = "TensorBoard lets you watch Tensors Flow"
@@ -6263,4 +6296,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.14"
-content-hash = "1f73dc1ce45c45146366ff960e2e8e7fe4c44f2ce74e0dd6f5cedf2d77e51583"
+content-hash = "31ec3d277e2ed594fdc40587a00d5b81a36dfdabc146c7f0fe26ac73fb0b18ef"

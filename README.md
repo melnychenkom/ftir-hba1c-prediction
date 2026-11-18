@@ -35,6 +35,8 @@ pip install -e .
 
 **JAXFit**: This repository uses a personal fork of JAXFit with fixes for compatibility with newer JAX versions.
 
+**H2O AutoML** (`notebooks/automl.ipynb`, `notebooks/automl_curvefit.py`) needs a Java runtime on the `PATH` (tested with OpenJDK 25).
+
 ## Quick Start
 
 ### Loading Data
