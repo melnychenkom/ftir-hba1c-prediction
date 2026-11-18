@@ -3,14 +3,28 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.signal import savgol_filter, find_peaks
 
-def peaks_second_deriv(
-        x_values, 
-        y_values, 
+def detect_peaks_second_deriv(
+        y_values,
         window_length=10,
         polyorder=2,
         **kwargs
     ):
-    
+    """
+    Second-derivative peak detection, without the plot.
+    -----------------------------------------------------
+    Minima of the normalised second derivative are the peak candidates. The
+    normalisation makes the find_peaks thresholds independent of the overall
+    intensity scale, so the same kwargs apply to a single spectrum and to a
+    mean spectrum.
+
+    Arguments:
+        y_values -- absorbance
+        window_length, polyorder -- Savitzky-Golay parameters for the derivative
+        kwargs -- keyword arguments for find_peaks
+
+    Returns:
+        (peak indices into y_values, normalised second derivative)
+    """
     second_deriv = savgol_filter(
         y_values,
         window_length=window_length,
@@ -19,6 +33,24 @@ def peaks_second_deriv(
     )
     second_deriv = second_deriv / np.linalg.norm(second_deriv)
     peaks = find_peaks(-second_deriv, **kwargs)[0]
+
+    return peaks, second_deriv
+
+
+def peaks_second_deriv(
+        x_values, 
+        y_values, 
+        window_length=10,
+        polyorder=2,
+        **kwargs
+    ):
+    
+    peaks, second_deriv = detect_peaks_second_deriv(
+        y_values,
+        window_length=window_length,
+        polyorder=polyorder,
+        **kwargs
+    )
 
     fig, axs = plt.subplots(2, 1, figsize=(7, 6))
     axs[0].plot(x_values, y_values)

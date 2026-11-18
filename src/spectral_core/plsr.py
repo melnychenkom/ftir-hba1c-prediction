@@ -80,12 +80,18 @@ class PLSRComponents:
 
         return self.num_comp
 
-    def plot_cv_results(self, figsize: Tuple[int, int] = (10, 8)) -> Tuple:
+    def plot_cv_results(
+        self,
+        figsize: Tuple[int, int] = (10, 8),
+        mark_selected: bool = True,
+    ) -> Tuple:
         """
         Plot cross-validation results: R², RMSE, predictions, and residuals.
 
         Args:
             figsize: Figure size
+            mark_selected: Draw a dashed vertical line at the selected
+                number of components on the R² and RMSECV panels.
 
         Returns:
             Tuple of (figure, axes)
@@ -108,9 +114,8 @@ class PLSRComponents:
         )
         axs[0, 0].set_xlabel("Number of components")
         axs[0, 0].set_ylabel("R²")
-        axs[0, 0].axvline(
-            self.num_comp, color="k", linestyle="--", linewidth=0.9
-        )
+        if mark_selected:
+            axs[0, 0].axvline(self.num_comp, color="k", linestyle="--", linewidth=0.9)
         axs[0, 0].xaxis.set_major_locator(MaxNLocator(integer=True))
 
         sns.lineplot(
@@ -125,9 +130,8 @@ class PLSRComponents:
         )
         axs[0, 1].set_xlabel("Number of components")
         axs[0, 1].set_ylabel("RMSECV")
-        axs[0, 1].axvline(
-            self.num_comp, color="k", linestyle="--", linewidth=0.9
-        )
+        if mark_selected:
+            axs[0, 1].axvline(self.num_comp, color="k", linestyle="--", linewidth=0.9)
         axs[0, 1].xaxis.set_major_locator(MaxNLocator(integer=True))
 
         sns.scatterplot(x=self._y_train, y=y_cv, ax=axs[1, 0], edgecolor="k", s=25)
@@ -201,6 +205,9 @@ class PLSRComponents:
             Tuple of (figure, axes)
         """
         return plot_predictions(
-            y_true, y_pred, target_name=self.target_name,
-            figsize=figsize, text_pos=text_pos,
+            y_true,
+            y_pred,
+            target_name=self.target_name,
+            figsize=figsize,
+            text_pos=text_pos,
         )
