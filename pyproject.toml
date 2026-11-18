@@ -6,6 +6,7 @@ authors = [
     {name = "Mykola Melnychenko",email = "miko.melnychenko@gmail.com"}
 ]
 readme = "README.md"
+license = "MIT"
 requires-python = ">=3.11,<3.14"
 dependencies = [
     "pandas (>=2.3.3,<3.0.0)",

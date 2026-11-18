@@ -4,12 +4,12 @@ seed_everything: 0
 trainer:
   enable_checkpointing: false
 model:
-  input_size: 3319
+  input_size: 1493  # 1000-1720 cm-1
   learning_rate: 0.0001
 data:
-  data_folder: /home/mykola/projects/ftir-hba1c-prediction/data/processed/
+  data_folder: data/processed/
   batch_size: 32
 optimizer: null
 lr_scheduler: null
-ckpt_path: /home/mykola/projects/ftir-hba1c-prediction/data/cnn/checkpoints/last.ckpt
+ckpt_path: data/checkpoints/last.ckpt
 verbose: true

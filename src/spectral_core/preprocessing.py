@@ -277,7 +277,7 @@ class PreprocessingPipeline:
         pipeline = PreprocessingPipeline()
         pipeline.add_step(SavitzkyGolayFilter(32, 2, 1))
         pipeline.add_step(Normalization(NormalizationType.VECTOR))
-        pipeline.add_step(RegionSelector([SpectralRegion(800, 1800)]))
+        pipeline.add_step(RegionSelector([SpectralRegion(1000, 1720)]))
         
         processed_data = pipeline.apply(raw_data)
     """

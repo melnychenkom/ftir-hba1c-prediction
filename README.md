@@ -67,11 +67,14 @@ pipeline = PreprocessingPipeline([
     SampleFilter(feature_max={"HbA1c": 14.0}, exclude_indices=[287, 636]),
     SavitzkyGolayFilter(window_length=33, polyorder=2, deriv=1),
     Normalization(method='vector'),
-    RegionSelector(regions=[(800, 1800), (2800, 3400)])
+    RegionSelector(regions=[(1000, 1720)])
 ])
 
 preprocessed_data: SpectralData = pipeline.apply(dataset)
 ```
+
+All models use the 1000–1720 cm⁻¹ fingerprint region (1493 points after
+preprocessing).
 
 ### Data Splitting
 
@@ -124,7 +127,7 @@ python -m spectral_core.cnn1d.main fit --config src/spectral_core/cnn1d/config/t
 
 # Or customize training parameters
 python -m spectral_core.cnn1d.main fit \
-    --model.input_size 3319 \
+    --model.input_size 1493 \
     --model.learning_rate 0.0001 \
     --data.data_folder data/processed/ \
     --trainer.max_epochs 300
@@ -171,6 +174,16 @@ published results; each is set in the file listed, not passed in at run time.
 | Bootstrap confidence intervals  | `np.random.default_rng(34)`                     | `notebooks/model_comparison.ipynb`                                                                  |
 | Repeated-split robustness check | seeds `0`–`4`                                   | `notebooks/model_comparison.ipynb` (`REPEAT_SEEDS`)                                                 |
 | H2O AutoML                      | `seed=1234`, `nfolds=5`                         | `notebooks/automl.ipynb`, `notebooks/automl_curvefit.py`                                            |
+
+## Data
+
+The FTIR spectra and HbA1c values (`data/dataset_681.csv`,
+`data/wavenumbers.csv`) are not included in this repository. The code expects
+them under `data/`; all outputs are written there as well.
+
+## License
+
+The code is released under the MIT License; see [LICENSE](LICENSE).
 
 ## Citation
 

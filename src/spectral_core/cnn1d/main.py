@@ -1,5 +1,5 @@
 from lightning.pytorch.cli import LightningCLI
-from models import SpectraDataModule, Lightning1DCNNModel
+from spectral_core.cnn1d.models import SpectraDataModule, Lightning1DCNNModel
 
 def main():
     cli = LightningCLI(
